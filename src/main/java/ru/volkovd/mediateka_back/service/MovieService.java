@@ -17,33 +17,35 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    // Получить все фильмы
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    // Получить фильм по ID
     public Optional<Movie> getMovieById(Long id) {
         return movieRepository.findById(id);
     }
 
-    // Создать новый фильм
     public Movie createMovie(Movie movie) {
         return movieRepository.save(movie);
     }
 
-    // Обновить существующий фильм
     public Optional<Movie> updateMovie(Long id, Movie movieDetails) {
         return movieRepository.findById(id)
                 .map(movie -> {
-                    movie.setTitle(movieDetails.getTitle());
-                    movie.setDirector(movieDetails.getDirector());
+                    movie.setIdBz(movieDetails.getIdBz());
+                    movie.setName(movieDetails.getName());
+                    movie.setInternationalName(movieDetails.getInternationalName());
+                    movie.setDescription(movieDetails.getDescription());
                     movie.setYear(movieDetails.getYear());
+                    movie.setGenres(movieDetails.getGenres());
+                    movie.setCountries(movieDetails.getCountries());
+                    movie.setRatingBz(movieDetails.getRatingBz());
+                    movie.setRatingKp(movieDetails.getRatingKp());
+                    movie.setPosters(movieDetails.getPosters());
                     return movieRepository.save(movie);
                 });
     }
 
-    // Удалить фильм
     public boolean deleteMovie(Long id) {
         return movieRepository.findById(id)
                 .map(movie -> {

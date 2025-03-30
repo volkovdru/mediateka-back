@@ -1,11 +1,17 @@
 package ru.volkovd.mediateka_back.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@Data
+@NoArgsConstructor
 @Entity
 public class Movie {
 
@@ -13,48 +19,33 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String director;
+
+    private Long idBz;
+    private String name;
+    private String internationalName;
+    private String description;
     private int year;
 
-    public Movie() {
-    }
+    private List<Long> genres;
+    private List<Long> countries;
 
-    public Movie(String title, String director, int year) {
-        this.title = title;
-        this.director = director;
-        this.year = year;
-    }
+    private Float ratingBz;
+    private Float ratingKp;
 
-    public Long getId() {
-        return id;
-    }
+    private List<String> posters;
 
-    public void setId(Long id) {
+    @Builder
+    public Movie(Long id, Long idBz, String name, String internationalName, String description, int year, List<Long> genres, List<Long> countries, Float ratingBz, Float ratingKp, List<String> posters) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
+        this.idBz = idBz;
+        this.name = name;
+        this.internationalName = internationalName;
+        this.description = description;
         this.year = year;
+        this.genres = genres;
+        this.countries = countries;
+        this.ratingBz = ratingBz;
+        this.ratingKp = ratingKp;
+        this.posters = posters;
     }
 }

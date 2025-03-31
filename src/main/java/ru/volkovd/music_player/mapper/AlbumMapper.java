@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 public class AlbumMapper {
 
     public List<AlbumDTO> toAlbumDTOList(List<Album> albums) {
-        AlbumMapper albumMapper = new AlbumMapper();
-        return albumMapper.toAlbumDTOList(albums);
+
+        return albums.stream().map(this::toAlbumDTO).toList();
     }
 
     public AlbumDTO toAlbumDTO(Album album) {

@@ -39,6 +39,7 @@ public class ArtistService {
         return artistRepository.findByName(name);
     }
 
+    @Transactional
     public Artist saveArtist(Artist artist) {
         return artistRepository.save(artist);
     }
@@ -59,6 +60,12 @@ public class ArtistService {
 
     @Transactional
     public Artist saveArtistIfNotExists(String artistName) {
-        return artistRepository.findByName(artistName);
+        Artist artistFromDB = artistRepository.findByName(artistName);
+        if (artistFromDB == null) {
+            Artist artist = new Artist(artistName);
+            artistRepository.save(artist);
+            return artist;
+        }
+        return artistFromDB;
     }
 }

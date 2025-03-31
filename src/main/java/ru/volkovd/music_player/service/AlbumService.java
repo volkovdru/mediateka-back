@@ -22,8 +22,8 @@ public class AlbumService {
         return albumMapper.toAlbumDTOList(albums);
     }
 
-    public Album findByArtistNameAndAlbumName(String albumName, Artist artist) {
-        return albumRepository.findByArtistNameAndAlbumName(albumName, artist.getName());
+    public Album findByArtistNameAndAlbumName(String albumName, String artistName) {
+        return albumRepository.findByArtistNameAndAlbumName(albumName, artistName);
     }
 
     public Album getAlbumById(Long id) {
@@ -43,7 +43,7 @@ public class AlbumService {
     }
 
     public Album saveAlbumIfNotExists(String albumName, Artist artist) {
-        Album album = findByArtistNameAndAlbumName(albumName, artist);
+        Album album = findByArtistNameAndAlbumName(albumName, artist.getName());
         if (album == null) {
             Album newAlbum = new Album();
             newAlbum.setArtist(artist);
@@ -53,4 +53,6 @@ public class AlbumService {
             return album;
         }
     }
+
+
 }

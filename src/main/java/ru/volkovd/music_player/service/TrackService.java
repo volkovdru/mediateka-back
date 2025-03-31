@@ -8,6 +8,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.volkovd.music_player.mapper.TrackMapper;
 import ru.volkovd.music_player.model.Album;
@@ -49,6 +50,7 @@ public class TrackService {
         return trackRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Track saveTrack(Track track, MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
             String filePath = saveFile(file); // Сохраняем файл и получаем путь
@@ -86,6 +88,7 @@ public class TrackService {
         }
     }
 
+    @Transactional
     public Track processTrack(MultipartFile multipartFile) throws IOException {
         // Создаем временный файл для MultipartFile
         Path tempFile = Files.createTempFile("temp", ".mp3");
@@ -117,10 +120,11 @@ public class TrackService {
                     track.setTitle(trackTitle);
                 }
                 if (artistName != null && !artistName.isEmpty()) {
-                    Artist artist = artistService.saveArtistIfNotExists(artistName);
-                    track.setArtist(artist);
+                    Artist artistFromDB = artistService.saveArtistIfNotExists(artistName);
+
+                    track.setArtist(artistFromDB);
                     if (albumName != null && !albumName.isEmpty()) {
-                        Album album = albumService.saveAlbumIfNotExists(albumName, artist);
+                        Album album = albumService.saveAlbumIfNotExists(albumName, artistFromDB);
                         track.setAlbum(album);
                     }
                 }
